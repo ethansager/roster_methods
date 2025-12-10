@@ -1,0 +1,71 @@
+---
+title: "Household Roster Literature Review"
+author: "Ethan Sager MIDP"
+date: "`r Sys.Date()`"
+format:
+    html:
+        toc: true
+        toc-depth: 2
+        number-sections: true
+    pdf:
+        toc: true
+        number-sections: true
+bibliography: Household Roster.bib
+execute:
+    echo: true
+    warning: false
+    error: false
+---
+
+# Introduction
+
+This document summarizes key literature related to household roster design choices in surveys. The goal is to inform the design and implementation of household rosters in household surveys by reviewing existing evidence on how different design choices impact data quality, respondent burden, and survey costs. Furthermore, it aims to identify gaps in the literature where additional research is needed.
+
+# Proposed Structure for Literature Review
+
+The literature review will be organized around the following thematic tables:
+
+-   T1: Overview of module design choices and key questions/variables
+
+-   T2: Descriptive statistics on differences in key variables between surveys that made different design choices
+
+-   T3: Time-cost by survey design choices
+
+-   T4: Review of survey experiment literature to inform bias-cost tradeoffs.
+
+# T1: Overview of Module Design Choices
+
+| Design Choice | Purpose | Typical response options / format | Evidence |
+|------------------|------------------|-------------------:|------------------|
+| Household definition | Define who counts as a household member | Resident, non-resident, consumes meals, contributes income | [@beaman_household_2012] |
+| Respondent | Who provides roster information | Household head, spouse, knowledgeable adult, proxy | [@masselus_whom_2024; @bardasi_labor_2011; @sharma_does_2025] |
+| Probes | To ellict confirmation and mitigate coverage errors | Probing on defintion, understanding of household realtionship | [@tourangeau_who_1997; @sweet_roster_1994] |
+
+Three main design choices are highlighted household definition, respondent selection, and use of probes. Each choice has implications for data quality and comparability across surveys. First on the use of household definitions, @beaman_household_2012 found that varying definitions can lead to significant differences in household size and composition ^[This is one of the few studies in a non-developed country context to test the impact of household definition on household compostion some further work namely by @tourangeau_motivated_2012 has been done in the US on the ACS and Census.]. Second we highlight the choice of respondent in most household surveys this is a single respondent whom provides information on behalf of the entire household, Given that the respresntaion of a population at oindivual level is not always the goal of these surveys we can skip the debates around selection and representation. However we should keep in mind even when we are not worried about selection we should still consider the implications of respondent choice on data quality. @masselus_whom_2024 and @bardasi_labor_2011 show that the choice of respondent (spouse vs head and proxy vs self-report) affects the accuracy of reported household characteristics, however this is an area where cost tradeoffs and study purpose are paramount. Finally, probing has been studied mostly in the US context by @sweet_roster_1994 and @tourangeau_who_1997 which demonstrate that probing techniques can reduce underreporting of household members by clarifying definitions for respondents, however this is another burdensome activity that has not been fully tested in the developing context. @beaman_household_2012 can be seen as a first step in this direction, but addtioanl probes beyond household definition were not tested.
+
+| Variable | Purpose | Typical response options / format |
+|------------------|------------------|--------------------:|
+|  Common Variables  |
+| Sex | Basic demographic identifier | Male / Female / Other |
+| Age | Age measurement and precision | Date of birth (preferred) or age in years |
+| Marital status | Relationship status of members | Single, married, divorced, widowed, cohabiting |
+| Relationship to HH head | Kinship mapping within household | Head, spouse/partner, child, parent, sibling, other non-relative |
+| Children in household | Identify and classify children | Biological, adopted, foster; ages |
+|  Extended Variables  |
+| Birth place / origin | Migration and origin information | Country / region / locality |
+| Elaboration of intra-household relationships | Clarify ambiguous ties and lineage | Mother/father/grandparent/etc; household link chains |
+| Parent characteristics | Parental attributes linked to children | Education, occupation, survival status |
+| Education | Educational attainment | None, primary, secondary, tertiary; years of schooling |
+| Primary activity | Economic activity / employment | Employed, unemployed, student, homemaker, retired |
+| Religion | Religious affiliation | Categories relevant to context |
+| Tracking information | Recontact / follow-up logistics | Phone number, alternate contact, permission to recontact |
+
+
+# T2: Descriptive statistics on differences in key variables between surveys that made different design choices
+| Study | Outcome | Control | Treatment | Effect | Sig |
+|-------|---------|---------|-----------|--------|-----|
+|  @beaman_household_2012     | Household Size | Standard definition | Inclusion of common agriculture | .17 SD | ** |
+|  @sweet_roster_1994       | Household Size | Standard Roster | Probes |.2 SD | ** |
+Notes: *** p < 0.01, ** p < 0.05, * p < 0.1. 
+# References
+<div id="refs" class="references csl-bib-body hanging-indent"></div>
