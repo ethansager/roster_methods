@@ -67,5 +67,6 @@ Three main design choices are highlighted household definition, respondent selec
 |  @beaman_household_2012     | Household Size | Standard definition | Inclusion of common agriculture | .17 SD | ** |
 |  @sweet_roster_1994       | Household Size | Standard Roster | Probes |.2 SD | ** |
 Notes: *** p < 0.01, ** p < 0.05, * p < 0.1. 
+
 # References
 <div id="refs" class="references csl-bib-body hanging-indent"></div>

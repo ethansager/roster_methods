@@ -7,7 +7,26 @@ library(ggplot2)
 #  Ghana ----
 #------------------------------------------------------------------------------#
 # Read in the data
-gha <- haven::read_dta("00_data/hh_roster_ghana.dta")
+ta_df <- haven::read_dta("00_data/hh_roster_ghana.dta") %>%
+    rename(duration_s = totaldurationseconds)
+
+start_times <- c()
+end_times <- c()
+source("01_scripts/ta_summary_utils.r")
+
+summary_df <- summarize_text_audit(
+    ta_df,
+    id_field = "hhid",
+    start_times = start_times,
+    end_times = end_times,
+    data_tz = "UTC",
+    collection_tz = "Africa/Accra"
+)
+
+summary_comp <- summary_df %>%
+    sample_n(100) %>%
+    janitor::remove_constant() %>%
+    janitor::remove_empty("cols")
 
 
 test <- gha %>%
@@ -98,7 +117,7 @@ php <- php %>% mutate(bin = ntile(per_person, n = 25))
 
 bin <- php %>%
     group_by(bin) %>%
-    summarise(xmean = mean(count_res_members), ymean = mean(per_person)) #find the x and y mean of each bin
+    summarise(xmean = mean(count_res_members), ymean = mean(per_person)) # find the x and y mean of each bin
 
 ggplot(bin, aes(x = xmean, y = ymean)) +
     geom_point() +
@@ -125,3 +144,38 @@ gha_per_person_avg <- c("5.09 HH Members", 82.2, "4 items")
 
 # Time to list one person on avergae
 data.frame(php_per_person_avg, gha_per_person_avg)
+
+#------------------------------------------------------------------------------#
+#  Realtional analysis ----
+#------------------------------------------------------------------------------#
+
+roster_php <- php %>%
+    select(caseid, fo_id, fc_id, starts_with("r_")) %>%
+    pivot_longer(
+        cols = starts_with("r_"),
+        names_pattern = "r_(.+)_([0-9]+)",
+        names_to = c(".value", "person_id")
+    ) %>%
+    filter(memid == person_id) %>%
+    mutate(across(
+        everything(),
+        ~ {
+            x <- .x
+            if (is.character(x)) {
+                x <- stringr::str_trim(x)
+                x <- dplyr::na_if(x, "")
+                x <- dplyr::na_if(x, "NA")
+                x <- dplyr::na_if(x, "null")
+            }
+            x
+        }
+    )) %>%
+    janitor::remove_constant() %>%
+    janitor::remove_empty("cols") %>%
+    select(-phone:-ph1_ntwk_oth)
+
+skimr::skim(roster_php)
+
+look <- roster_php %>%
+    filter(caseid == "H004280016") %>%
+    haven::zap_labels()
